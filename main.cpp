@@ -239,8 +239,6 @@ int main( int argc, char *argv[] )
 		output_file.open( data.output_filename );
 	}
 
-	std::time_t now = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now() );
-
 	output_file << std::endl;
 	output_file << "// ---------------------------------------------------" << std::endl;
 	output_file << "// EnumNameMaker by Azenris, @AzenrisGamer" << std::endl;
