@@ -7,8 +7,6 @@ It can be used 2 ways.
 1. Search all folder recursively directly in the project
 2. Drag and drop all selected .gml files on the exe
 
-When done the 
-
 -----------
 USING METHOD #1
 -----------
@@ -47,9 +45,11 @@ enum KEY
 };
 
 var _enum_name = enum_binding_get_name( "KEY", KEY.LEFT );
+
 show_debug_message( _enum_name ); // prints "KEY.LEFT"
 
 var _enum_value = enum_binding_get_value( "KEY.LEFT" );
+
 show_debug_message( _enum_value ); // prints 55
 
 -----------
