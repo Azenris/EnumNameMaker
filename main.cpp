@@ -108,7 +108,7 @@ std::string & remove_comments_and_values( std::string &input )
 	auto comment_position = input.find( "//" );
 	while ( comment_position != std::string::npos )
 	{
-		auto comment_end_position = input.find_first_of( "\t\n\r", comment_position );
+		auto comment_end_position = input.find_first_of( "\t\n\r\f\v", comment_position );
 		if ( comment_end_position != std::string::npos )
 			input.erase( comment_position, comment_end_position - comment_position );
 		else
@@ -132,7 +132,7 @@ std::string & remove_comments_and_values( std::string &input )
 	auto value_position = input.find( "=" );
 	while ( value_position != std::string::npos )
 	{
-		auto value_end_position = input.find( ",", value_position );
+		auto value_end_position = input.find_first_of( ",}", value_position );
 		if ( value_end_position != std::string::npos )
 			input.erase( value_position, value_end_position - value_position );
 		else
@@ -147,24 +147,40 @@ std::vector<std::string> split_string( std::string input )
 {
 	std::vector<std::string> result;
 
-	std::stringstream ss( remove_comments_and_values( input ) );
+	std::stringstream ss( input );
 
 	std::string name = "";
 
-	while ( ss.good() )
+	while ( true )
 	{
-		std::getline( ss, name );
+		if ( name == "" )
+		{
+			if ( ss.good() )
+			{
+				std::getline( ss, name );
+			}
+			else
+			{
+				return result;
+			}
+		}
 
 		trim( name );
 
-		const auto found = name.find_first_of( ",= \t\n\r" );
+		const auto found = name.find( "," );
 		if ( found != std::string::npos )
 		{
-			result.push_back( name.substr( 0, found ) );
+			std::string enum_name = name.substr( 0, found );
+
+			result.push_back( trim( enum_name ) );
+
+			name.erase( 0, found + 1 );
 		}
 		else if ( name != "" )
 		{
 			result.push_back( name );
+
+			name = "";
 		}
 	}
 
@@ -251,6 +267,8 @@ int main( int argc, char *argv[] )
 	for ( const auto &entry : data.files )
 	{
 		std::string string_read = read_file_into_string( entry );
+
+		remove_comments_and_values( string_read );
 
 		std::regex regexp( R"(enum\s+([a-zA-Z_]+[a-zA-Z0-9_]*?)\s*\{\s*([\s\S]*?)\s*\})" );
 		std::smatch m;

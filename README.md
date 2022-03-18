@@ -3,6 +3,12 @@ Generate a script containing enum name bindings for Gamemaker.
 
 -----------
 
+MAKE A BACKUP
+Just for total protection, make a backup of your project first.
+Not just with my tool but with any code you run on your project.
+
+-----------
+
 It can be used 2 ways.
 1. Search all folder recursively directly in the project
 2. Drag and drop all selected .gml files on the exe
@@ -37,7 +43,8 @@ USING METHOD #2
 2. A enum_bindings.gml file will be created in the same file location
 
 -----------
-
+HOW TO USE IN CODE
+-----------
 enum KEY
 {
   LEFT = 55,
@@ -53,3 +60,7 @@ var _enum_value = enum_binding_get_value( "KEY.LEFT" );
 show_debug_message( _enum_value ); // prints 55
 
 -----------
+PROBLEMS
+-----------
+If you have any specific enum setups that don't work let me know and I'll try and fix the parsing problem.
+@AzenrisGamer
