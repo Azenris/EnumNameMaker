@@ -108,7 +108,7 @@ std::string & remove_comments_and_values( std::string &input )
 	auto comment_position = input.find( "//" );
 	while ( comment_position != std::string::npos )
 	{
-		auto comment_end_position = input.find_first_of( "\t\n\r\f\v", comment_position );
+		auto comment_end_position = input.find_first_of( "\n\r\f", comment_position );
 		if ( comment_end_position != std::string::npos )
 			input.erase( comment_position, comment_end_position - comment_position );
 		else
