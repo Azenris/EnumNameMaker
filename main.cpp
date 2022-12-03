@@ -21,18 +21,22 @@ struct data_struct
 
 	const char *extension = ".gml";
 
-	const char *code = R"=====(function enum_binding( _name, _value )
+	const char *code = R"=====(/// @func enum_binding( name, value )
+/// @desc Add a new binding
+/// @param	{String}	_name				Name of the enum
+/// @param	{Real}		_value				Value of the enum
+function enum_binding( _name, _value )
 {
 	global.enum_binds[$ _name ] = _value;
 	global.enum_binds[$ string_to( _name, "." ) + "." + string( _value ) ] = _name;
 }
 
+/// @func enum_binding_get_value( name )
+/// @desc Get the value of an enum name
+/// @param	{String}	_name				Name of the enum
+/// @return	{Real}		_enum_value			Value of the enum
 function enum_binding_get_value( _name )
 {
-	/// @func enum_binding_get_value( name )
-	/// @arg	{string}	enum_type_name
-	/// @arg	{string}	enum_enty_name
-
 	gml_pragma( "forceinline" );
 	if ( DEBUG_MODE_ENABLED )
 	{
@@ -41,13 +45,13 @@ function enum_binding_get_value( _name )
 	return global.enum_binds[$ _name ];
 }
 
+/// @func enum_binding_get_name( type, value )
+/// @desc Get the value of an enum name
+/// @param	{String}		_type			Name of the enum type ( The bit before the dot, not including the dot )
+/// @param	{Real}			_value			Value of the enum
+/// @return	{String}		_name			Name of the enum
 function enum_binding_get_name( _type, _value )
 {
-	/// @func enum_binding_get_name( type, value )
-	/// @arg	{string}	enum_type_name
-	/// @arg	{ENUM}		enum_value
-	/// @ret	{string}	enum_enty_name
-
 	gml_pragma( "forceinline" );
 	if ( DEBUG_MODE_ENABLED )
 	{
